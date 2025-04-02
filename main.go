@@ -47,6 +47,7 @@ func main() {
 	// Routes
 	r.HandleFunc("/api/chat", handleChat).Methods("POST")
 	r.HandleFunc("/ws", handleWebSocket)
+	r.HandleFunc("/health", handleHealth).Methods("GET")
 
 	// CORS middleware
 	c := cors.New(cors.Options{
@@ -122,4 +123,11 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+}
+
+func handleHealth(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]string{
+		"status": "healthy",
+	})
 } 
