@@ -51,14 +51,10 @@ func main() {
 
 	// CORS middleware
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{
-			"http://localhost:3000",
-			"https://*.vercel.app",     // Vercel preview deployments
-			"https://your-domain.com",  // Replace with your actual domain
-		},
+		AllowedOrigins:   []string{"*"},  // Allow all origins
 		AllowedMethods:   []string{"GET", "POST", "OPTIONS"},
 		AllowedHeaders:   []string{"Content-Type", "Authorization"},
-		AllowCredentials: true,
+		AllowCredentials: false,  // Must be false when AllowedOrigins is ["*"]
 	})
 
 	handler := c.Handler(r)
