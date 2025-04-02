@@ -1,15 +1,13 @@
 services:
   - type: web
     name: claude-clone-backend
-    env: go
-    rootDir: backend
-    buildCommand: chmod +x .render-buildcommand.sh && ./.render-buildcommand.sh
-    startCommand: ./app
+    env: docker
+    buildCommand: docker build -t claude-clone-backend .
+    startCommand: ./main
     envVars:
       - key: PORT
         value: 8080
       - key: HUGGINGFACE_API_KEY
         sync: false
       - key: MODEL_ID
-        value: facebook/blenderbot-400M-distill
-    healthCheckPath: /health 
+        value: facebook/blenderbot-400M-distill 

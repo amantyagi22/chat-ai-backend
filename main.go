@@ -47,14 +47,16 @@ func main() {
 	// Routes
 	r.HandleFunc("/api/chat", handleChat).Methods("POST")
 	r.HandleFunc("/ws", handleWebSocket)
-	r.HandleFunc("/health", handleHealth).Methods("GET")
 
 	// CORS middleware
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"*"},  // Allow all origins
+		AllowedOrigins: []string{
+			"http://localhost:3000",
+			"https://claude-clone-frontend.vercel.app", // Add your Vercel domain
+		},
 		AllowedMethods:   []string{"GET", "POST", "OPTIONS"},
-		AllowedHeaders:   []string{"Content-Type", "Authorization"},
-		AllowCredentials: false,  // Must be false when AllowedOrigins is ["*"]
+		AllowedHeaders:   []string{"Content-Type"},
+		AllowCredentials: true,
 	})
 
 	handler := c.Handler(r)
@@ -119,11 +121,4 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-}
-
-func handleHealth(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(map[string]string{
-		"status": "healthy",
-	})
 } 
